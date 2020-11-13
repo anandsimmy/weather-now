@@ -1,14 +1,16 @@
 import { takeEvery, put, all, call } from 'redux-saga/effects'
 import {
     searchCitySuccess,
-    searchCityFailure
+    searchCityFailure,
+    startLoading
 } from './actions'
 import { collectWeatherDataByCity, collectWeatherDataByPincode } from '../api/weather'
 import * as actionTypes from './action-types';
 
 //handlers
 export function* searchCity({ payload:{ query, country, type } }){
-    try{
+    try{ 
+        yield put(startLoading())
         let data= ''
         switch(type){
             case 'city':

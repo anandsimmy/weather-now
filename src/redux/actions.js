@@ -7,6 +7,12 @@ export const searchCityStart= (payload) => {
     }
 }
 
+export const startLoading= () => {
+    return {
+        type: actionTypes.START_LOADING
+    }
+}
+
 export const searchCitySuccess= (payload) => {
     return {
         type: actionTypes.SEARCH_CITY_SUCCESS,

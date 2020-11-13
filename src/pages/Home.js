@@ -8,7 +8,7 @@ import Logo from '../components/Logo'
 import { searchCityStart } from '../redux/actions'
 import '../styles.scss'
 
-const Home=({ weatherData, error, dispatchSearchCityStart  }) => {
+const Home=({ weatherData, error, isLoading, dispatchSearchCityStart  }) => {
 
   const [query, changeQuery]= useState('') ;
   const [country, changeCountry]= useState('') ;
@@ -32,15 +32,21 @@ const Home=({ weatherData, error, dispatchSearchCityStart  }) => {
       changeCountry(0);
     }
   }
-
+  
   useEffect(()=>{
     dispatchSearchCityStart({query: 'bangalore', type: 'city'})
   }, [])
 
 
   return (
+    !isLoading ?
     <div className={`App ${weatherData.data?'Success':null}`}>
         <Logo error={error}/>
+        <div className='main'>
+          <SearchBar value={query} handleChange={handleChange} handleSubmit={handleSubmit}/>
+          <Dropdown value={country} handleCountry={handleCountry}/>
+          <button  className='submit' type='submit' onClick={handleSubmit} onKeyDown={handleSubmit}>Submit</button>
+        </div>
         {
           get(weatherData, 'data') ? 
           <WeatherInfoBox weatherData={weatherData}/> : null
@@ -49,11 +55,9 @@ const Home=({ weatherData, error, dispatchSearchCityStart  }) => {
           error?
           <div className='weather-error'>Place not found! Please try again</div> : null
         }
-        <div className='main'>
-          <SearchBar value={query} handleChange={handleChange} handleSubmit={handleSubmit}/>
-          <Dropdown value={country} handleCountry={handleCountry}/>
-          <button  className='submit' type='submit' onClick={handleSubmit} onKeyDown={handleSubmit}>Submit</button>
-        </div>
+    </div> :
+    <div className='loading-container'>
+      <div className='loader'></div>
     </div>
   );
   }
@@ -61,7 +65,8 @@ const Home=({ weatherData, error, dispatchSearchCityStart  }) => {
 const mapStateToProps= (state) => {
   return({
     weatherData: state.get('weatherData'),
-    error: state.get('error')
+    error: state.get('error'),
+    isLoading: state.get('isLoading')
 })
 }
 
