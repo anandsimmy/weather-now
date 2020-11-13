@@ -63,6 +63,15 @@
     }
 }
 
+.weather-error {
+    grid-area: info;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #f48024;
+    font-size: 25px;
+}
+
 .main {
     grid-area: main;
     width: 100%;
@@ -116,9 +125,3 @@
     }
 }
 
-.weather-error {
-    margin-bottom: 20px;
-    color: #f48024;
-    margin: 20% 0 0 19%;
-    font-size: 25px;
-}
